@@ -1088,12 +1088,10 @@
 
         var tx = $('#txHex').val();
 
-        //url = 'https://blockchain.info/pushtx?cors=true';
-        url = 'http://btc.blockr.io/api/v1/tx/push';
+        url = 'https://blockchain.info/pushtx?cors=true';
         
         // alternatives are:
         // http://eligius.st/~wizkid057/newstats/pushtxn.php (supports non-standard transactions)
-        // https://btc.blockr.io/tx/push
         // http://bitsend.rowit.co.uk (defunct)
         // https://btc.com/tools/tx/publish
 
@@ -1196,9 +1194,8 @@
       MAX_MULTISIG_TX_NUM = 1; //一条交易里能支持的最大数量多重签名条目
       MAX_N = 2;  //单个1ofN多重签名输出中最多允许的公钥数量N取值
       MIN_UNSPENT_NUM = 1;  //最少作为输入需要的未使用交易记录数量
-      MIN_DUST_AMOUNT = 5757;  //最小有效交易金额,单位satoshi，即0.00000001 BTC
-      MIN_DUST_FLOAT_VALUE = 0.00005757;  //最小有效交易金额,单位BTC
-      MIN_TRANSACTION_FEE = 20000; //矿工费用的最小金额，单位satoshi
+      MIN_DUST_AMOUNT = 1000;  //最小有效交易金额,单位satoshi，即0.00000001 BTC
+      MIN_DUST_FLOAT_VALUE = 0.00001000;  //最小有效交易金额,单位BTC
       MAX_OP_RETURN_LENGTH = 75;   //OP_RETURN能存放数据的最大字节数
       MAX_ODIN_DATA_LENGTH=(MAX_N-2)*PPK_PUBKEY_EMBED_DATA_MAX_LENGTH+(MAX_N-1)*PPK_PUBKEY_EMBED_DATA_MAX_LENGTH*(MAX_MULTISIG_TX_NUM-1)+MAX_OP_RETURN_LENGTH;  //支持嵌入的ODIN数据最大字节数
       
