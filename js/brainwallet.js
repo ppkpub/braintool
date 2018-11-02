@@ -1094,6 +1094,7 @@
         // http://eligius.st/~wizkid057/newstats/pushtxn.php (supports non-standard transactions)
         // http://bitsend.rowit.co.uk (defunct)
         // https://btc.com/tools/tx/publish
+        // https://insight.bitpay.com/tx/send
 
         url = prompt(r + 'Press OK to send transaction to:', url);
 
@@ -1115,6 +1116,7 @@
         var sec = $('#txSec').val();
         var addr = $('#txAddr').val();
         var unspent = $('#txUnspent').val();
+        txUpdateUnspent();
         var balance = parseFloat($('#txBalance').val());
         var fee = parseFloat('0'+$('#txFee').val());
 
@@ -1204,13 +1206,26 @@
       OP_CHECKMULTISIG=174;      
 
       //组织ODIN注册信息数据块
-      var str_odin_setting='{"ver":1,"title":"'+$('#txOdinTitle').val()+'","email":"'+$('#txOdinEmail').val()+'","auth":"'+$('#txOdinAuth').val()+'"}';
-      //console.log('str_odin_setting=',str_odin_setting);
+      var max_user_input_length = MAX_OP_RETURN_LENGTH - 'RTX{"ver":1,"title":"","auth":"0"}'.length;
+      console.log('max_user_input_length=',max_user_input_length);
+      
+      var str_title_encoded=encodeURI($('#txOdinTitle').val(),"utf-8");
+      if(str_title_encoded.length>max_user_input_length){
+        str_title_encoded=str_title_encoded.substr(0,max_user_input_length);
+      }
+      
+      var str_email_encoded=',"email":'+JSON.stringify($('#txOdinEmail').val());
+      if(str_email_encoded.length+str_title_encoded.length>max_user_input_length){
+        str_email_encoded="";
+      }
+      
+      var str_odin_setting='{"ver":1,"title":"'+str_title_encoded+'"'+str_email_encoded+',"auth":"'+$('#txOdinAuth').val()+'"}';
+      console.log('str_odin_setting=',str_odin_setting);
       var str_odin_msg = 'RT'
               + String.fromCharCode(str_odin_setting.length%253)
               + str_odin_setting;  //组织ODIN注册信息
-      //console.log('str_odin_msg=',str_odin_msg);
-      //console.log('LENGTH=',str_odin_msg.length);
+      console.log('str_odin_msg=',str_odin_msg);
+      console.log('LENGTH=',str_odin_msg.length);
             
       //if(str_odin_msg.length>MAX_ODIN_DATA_LENGTH){
       //  console.log('str_odin_msg should be less than ',MAX_ODIN_DATA_LENGTH);
