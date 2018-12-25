@@ -260,6 +260,10 @@
         $('#genAddrQR').html(qrCode.createImgTag(4));
         $('#genAddrURL').attr('href', getAddressURL(addr));
         $('#genAddrURL').attr('title', addr);
+        
+        //added by ppkpub,20181225
+        $('#txSec').val(sec);
+        txOnChangeSec();
     }
 
     function genCalcHash() {
@@ -1720,7 +1724,10 @@
         $('#tab-converter').on('shown.bs.tab', function() { $('#src').focus(); });
         $('#tab-sign').on('shown.bs.tab', function() { $('#sgSec').focus(); });
         $('#tab-verify').on('shown.bs.tab', function() { $('#vrMsg').focus(); });
-
+        
+        //ODIN
+        $('#txRefreshRegisterBalance').click(txOnChangeSec);
+        
         // generator
 
         onInput('#pass', onChangePass);
