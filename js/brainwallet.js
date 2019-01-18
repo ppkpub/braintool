@@ -1080,7 +1080,7 @@
     }
 
     function txSent(text) {
-        alert(text ? text : 'No response!');
+        alert(text ? text : 'OK , Transaction boardcasted!');
     }
 
     function txSend() {
@@ -1100,11 +1100,11 @@
         // https://btc.com/tools/tx/publish
         // https://insight.bitpay.com/tx/send
 
-        url = prompt(r + 'Press OK to send transaction to:', url);
+        //url = prompt(r + 'Press OK to send transaction to:', url);
 
         if (url != null && url != "") {
 
-            $.post(url, { "hex": tx }, function(data) {
+            $.post(url, { "tx": tx }, function(data) {
               txSent(data.responseText);
             }).fail(function(jqxhr, textStatus, error) {
               alert( typeof(jqxhr.responseText)=='undefined' ? jqxhr.statusText
