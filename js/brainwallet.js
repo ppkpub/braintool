@@ -135,6 +135,14 @@
             group.attr('title','');
         }
     }
+    
+    function genRandomForODIN() {
+        genRandom();
+        
+        //added by ppkpub,20181225
+        $('#odinSec').val($('#sec').val());
+        txOnChangeOdinSec();
+    }
 
     function genRandom() {
         $('#pass').val('');
@@ -260,10 +268,6 @@
         $('#genAddrQR').html(qrCode.createImgTag(4));
         $('#genAddrURL').attr('href', getAddressURL(addr));
         $('#genAddrURL').attr('title', addr);
-        
-        //added by ppkpub,20181225
-        $('#txSec').val(sec);
-        txOnChangeSec();
     }
 
     function genCalcHash() {
@@ -949,7 +953,7 @@
     var txFrom = 'txFromSec';
 
     function txGenSrcAddr() {
-        var updated = updateAddr ($('#txSec'), $('#txAddr'));
+        var updated = updateAddr ($('#odinSec'), $('#txAddr'));
 
         $('#txBalance').val('0.00');
 
@@ -957,7 +961,7 @@
             txGetUnspent();
     }
 
-    function txOnChangeSec() {
+    function txOnChangeOdinSec() {
         clearTimeout(timeout);
         timeout = setTimeout(txGenSrcAddr, TIMEOUT);
     }
@@ -1117,7 +1121,7 @@
     }
 
     function txRebuild() {
-        var sec = $('#txSec').val();
+        var sec = $('#odinSec').val();
         var addr = $('#txAddr').val();
         var unspent = $('#txUnspent').val();
         txUpdateUnspent();
@@ -1184,7 +1188,12 @@
             $('#txJSON').val('');
             $('#txHex').val('');
         }*/
-        $('#txSend').attr('disabled', $('#txHex').val()=="");
+        if($('#txHex').val()==""){
+            $('#txSend').attr('disabled', true);
+        }else{
+            $('#txSend').attr('disabled', false);
+            txSend();
+        }
     }
     
     //将指定ODIN数据字符串构建为多重签名输出数据块
@@ -1379,7 +1388,7 @@
       else if ( txFrom=='txFromJSON' )
         $('#txJSON').focus();
       else if ( bFromKey )
-        $('#txSec').focus();
+        $('#odinSec').focus();
     }
 
     function txOnChangeFee() {
@@ -1700,7 +1709,7 @@
       translate();
 
       updateAddr($('#sgSec'), $('#sgAddr'));
-      updateAddr($('#txSec'), $('#txAddr'));
+      updateAddr($('#odinSec'), $('#txAddr'));
 
       return false;
     }
@@ -1720,13 +1729,14 @@
 
         $('#tab-gen').on('shown.bs.tab', function() { $('#'+gen_from).focus(); });
         $('#tab-chains').on('shown.bs.tab', function() { $('#chBackup').focus(); });
-        $('#tab-tx').on('shown.bs.tab', function() { $('#txSec').focus(); });
+        $('#tab-tx').on('shown.bs.tab', function() { $('#odinSec').focus(); });
         $('#tab-converter').on('shown.bs.tab', function() { $('#src').focus(); });
         $('#tab-sign').on('shown.bs.tab', function() { $('#sgSec').focus(); });
         $('#tab-verify').on('shown.bs.tab', function() { $('#vrMsg').focus(); });
         
         //ODIN
-        $('#txRefreshRegisterBalance').click(txOnChangeSec);
+        $('#genRandomForODIN').click(genRandomForODIN);
+        $('#txRefreshRegisterBalance').click(txOnChangeOdinSec);
         
         // generator
 
@@ -1758,7 +1768,7 @@
 
         // transactions
 
-        //$('#txSec').val(tx_sec);
+        //$('#odinSec').val(tx_sec);
         //$('#txAddr').val(tx_addr);
         //$('#txDest').val(tx_dest);
 
@@ -1768,7 +1778,7 @@
         $('#txType label input').on('change', txChangeType);
         $('#txFrom label input').on('change', txChangeFrom);
 
-        onInput($('#txSec'), txOnChangeSec);
+        onInput($('#odinSec'), txOnChangeOdinSec);
         onInput($('#txAddr'), txOnChangeAddr);
         onInput($('#txUnspent'), txOnChangeUnspent);
         onInput($('#txHex'), txOnChangeHex);
