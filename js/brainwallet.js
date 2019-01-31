@@ -1021,7 +1021,7 @@
             $.getJSON(url, function(data) {
               txParseUnspent ( JSON.stringify(data, null, 2) );
             }).fail(function(jqxhr, textStatus, error) {
-              alert( typeof(jqxhr.responseText)=='undefined' ? jqxhr.statusText 
+              console.log( typeof(jqxhr.responseText)=='undefined' ? jqxhr.statusText 
                 : ( jqxhr.responseText!='' ? jqxhr.responseText : 'No data, probably Access-Control-Allow-Origin error.') );
             });
 
