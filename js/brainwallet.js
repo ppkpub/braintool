@@ -1365,6 +1365,19 @@
             $('#txShowUnspent').text('Show Outputs');
         }
     }
+    
+    function openOdinTool(){
+        var odin_tool_url='http://tool.ppkpub.org:9876/odin';
+        
+        var current_address=$('#txAddr').val();
+        
+        if( current_address.length ==0 ){
+            alert('浏览器钱包还没有可用的比特币地址，请先创建或导入一个比特币地址！');
+            return;
+        }
+        
+        window.open(odin_tool_url+"?address="+current_address);
+    }
 
     function txChangeType() {
         txType = $(this).attr('id');
@@ -1791,6 +1804,7 @@
         $('#txRemoveDest').click(txOnRemoveDest);
         $('#txBuildTranaction').click(txRebuild);
         $('#txBuildTranaction').attr('disabled', true);
+        $('#openOdinTool').click(openOdinTool);
         $('#txSend').click(txSend);
         $('#txSign').click(txSign);
         $('#txSign').attr('disabled', true);
