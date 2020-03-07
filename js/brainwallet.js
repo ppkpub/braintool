@@ -1127,6 +1127,16 @@
         txUpdateUnspent();
         var balance = parseFloat($('#txBalance').val());
         var fee = parseFloat('0'+$('#txFee').val());
+        
+        if(isNaN(balance) || balance < 0.00003){
+          $.alert('The balance should be at least 0.00003 BTC.','Invalid balance');
+          return;
+        }
+        
+        if(isNaN(fee) || fee < 0.000005){
+          $.alert('The fee should be at least 0.000005 BTC','Invalid fee');
+          return;
+        }
 
         try {
             var res = parseBase58Check(sec); 
